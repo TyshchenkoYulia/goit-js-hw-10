@@ -5,6 +5,8 @@ import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
+import errorIcon from "../img/error-icon.svg";
+
 // ================================================================
 
 const calendar = document.querySelector('#datetime-picker');
@@ -18,6 +20,7 @@ const secondsValue = document.querySelector('span[data-seconds]');
 
 let userSelectedDate;
 
+buttonDisable();
 
 const options = {
     enableTime: true,
@@ -27,77 +30,65 @@ const options = {
     onClose(selectedDates) {
         if (selectedDates[0] < Date.now()) {
             iziToast.show({
-                id: null, 
-            
-                titleSize: '',
-                titleLineHeight: '',
+                title: 'Error',
+                titleColor: '#fff',
+                titleSize: '16px',
                 message: 'Please choose a date in the future',
-                messageColor: 'white',
-                theme: 'light', // dark
-                color: 'red', // blue, red, green, yellow
-                icon: '',
-                iconText: 'Error',
-                iconColor: '',
-                iconUrl: null,
-                image: '',
-                imageWidth: 50,
-                maxWidth: null,
-                zindex: null,
-                layout: 1,
-                balloon: false,
-                close: true,
-                closeOnEscape: false,
-                closeOnClick: false,
-                displayMode: 0, // once, replace
-                position: 'bottomRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, center
-                target: '',
-                targetFirst: true,
-                timeout: 5000,
-                rtl: false,
-                animateInside: true,
-                drag: true,
-                pauseOnHover: true,
-                resetOnHover: false,
-                progressBar: true,
-                progressBarColor: '',
-                progressBarEasing: 'linear',
-                overlay: false,
-                overlayClose: false,
-                overlayColor: 'rgba(0, 0, 0, 0.6)',
-                transitionIn: 'fadeInUp',
-                transitionOut: 'fadeOut',
-                transitionInMobile: 'fadeInUp',
-                transitionOutMobile: 'fadeOutDown',
-                buttons: {},
-                inputs: {},
-                onOpening: function () {},
-                onOpened: function () {},
-                onClosing: function () {},
-                onClosed: function () {}
+                messageColor: '#fff',
+                messageSize: '16px',
+                iconUrl: errorIcon,
+                position: 'topRight',
+                backgroundColor: '#ef4040',
             });
-        } 
 
+            startButton.setAttribute('disabled', '');
 
-      console.log(selectedDates[0]);
-    },
-  };
+        } else {
+            startButton.removeAttribute('disabled');
+        }
 
-const calendarFlatpickr = flatpickr("#datetime-picker", options);
+        userSelectedDate = selectedDates[0].getTime();
+// console.log(userSelectedDate);
+    }
 
-
-
-
-
-
-
-
-
-
+        
+    //   console.log(selectedDates[0]);
+}
+  
 
 
 
+flatpickr("#datetime-picker", options);
+
+function buttonDisable() {
+    startButton.setAttribute('disabled', '');
+}
+
+function inputDisable() {
+    calendar.setAttribute('disabled', '');
+}
+
+function setTimer({ days, hours, minutes, seconds }) {
+    daysValue.innerHTML = days
+    hoursValue.innerHTML = hours
+    minutesValue.innerHTML = minutes
+    secondsValue.innerHTML = seconds
+
+}
+
+function onCountdownTime() {
+    buttonDisable();
+    inputDisable();
+
+    let countdownTime = userSelectedDate - Date.now();
+
+    setTimer(convertMs(countdownTime));
+    // console.log(countdownTime);
+}
 
 
+
+startButton.addEventListener('click', onCountdownTime);
 
 // ===============================================================
 
@@ -120,12 +111,7 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
   }
   
-  console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-  console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-  console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+  
   
 //   ===========================================================
 
-startButton.addEventListener('click', event => {
-
-})

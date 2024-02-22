@@ -15,9 +15,15 @@ input {
 button {
   height: 40px;
   width: 75px;
-  background-color: #CFCFCF;
+  background-color: #4E75FF;
   border: none;
   border-radius: 8px; 
+  color: #ffffff;
+}
+
+button[disabled] {
+  background-color: #CFCFCF;
+  color: #989898;
 }
 
 .timer {
