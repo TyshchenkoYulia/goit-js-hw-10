@@ -19,8 +19,8 @@ const secondsValue = document.querySelector('span[data-seconds]');
 // =============================================================
 
 let userSelectedDate;
+let countdownTime;
 
-buttonDisable();
 
 const options = {
     enableTime: true,
@@ -39,6 +39,7 @@ const options = {
                 iconUrl: errorIcon,
                 position: 'topRight',
                 backgroundColor: '#ef4040',
+                close: false,
             });
 
             startButton.setAttribute('disabled', '');
@@ -48,48 +49,10 @@ const options = {
         }
 
         userSelectedDate = selectedDates[0].getTime();
-// console.log(userSelectedDate);
     }
-
-        
-    //   console.log(selectedDates[0]);
 }
-  
-
-
 
 flatpickr("#datetime-picker", options);
-
-function buttonDisable() {
-    startButton.setAttribute('disabled', '');
-}
-
-function inputDisable() {
-    calendar.setAttribute('disabled', '');
-}
-
-function setTimer({ days, hours, minutes, seconds }) {
-    daysValue.innerHTML = days
-    hoursValue.innerHTML = hours
-    minutesValue.innerHTML = minutes
-    secondsValue.innerHTML = seconds
-
-}
-
-function onCountdownTime() {
-    buttonDisable();
-    inputDisable();
-
-    let countdownTime = userSelectedDate - Date.now();
-
-    setTimer(convertMs(countdownTime));
-    // console.log(countdownTime);
-}
-
-
-
-startButton.addEventListener('click', onCountdownTime);
-
 // ===============================================================
 
 function convertMs(ms) {
@@ -114,4 +77,58 @@ function convertMs(ms) {
   
   
 //   ===========================================================
+buttonDisable();
+
+function buttonDisable() {
+    startButton.setAttribute('disabled', '');
+}
+
+function inputDisable() {
+    calendar.setAttribute('disabled', '');
+}
+
+
+function setTimer({days, hours, minutes, seconds}) {
+    daysValue.textContent = updateTime(days);
+    hoursValue.textContent = updateTime(hours);
+    minutesValue.textContent = updateTime(minutes);
+    secondsValue.textContent = updateTime(seconds);
+
+}
+
+function updateTime(value) {
+    if (value < 10) {
+        return String(value).padStart(2, '0');
+    } else {
+      return value;
+    }
+}
+
+function onCountdownTime() {
+      buttonDisable();
+    inputDisable();
+   let countdownTime = userSelectedDate - Date.now();
+
+    if (countdownTime <= 0) {
+        return
+    } else {
+        setTimer(convertMs(countdownTime));
+    }
+
+   
+
+    setInterval(setTimer, 1000);
+    
+    
+    
+    
+}
+
+
+
+// console.log(setInterval);
+
+startButton.addEventListener('click', onCountdownTime);
+
+
 
