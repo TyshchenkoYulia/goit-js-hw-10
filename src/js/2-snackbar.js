@@ -40,7 +40,6 @@ function onSubmitForm(event) {
                     message: `✅ Fulfilled promise in ${delayValue}ms`,
                     messageColor: '#fff',
                     messageSize: '16px',
-                    // iconUrl: errorIcon,
                     position: 'topRight',
                     backgroundColor: '#59A10D',
                     close: false,
@@ -54,8 +53,7 @@ function onSubmitForm(event) {
                     message: `❌ Rejected promise in ${delayValue}ms`,
                     messageColor: '#fff',
                     messageSize: '16px',
-                    // iconUrl: errorIcon,
-                    position: 'topRight',
+                   position: 'topRight',
                     backgroundColor: '#ef4040',
                     close: false,
                 })

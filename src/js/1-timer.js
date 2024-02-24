@@ -19,7 +19,6 @@ const secondsValue = document.querySelector('span[data-seconds]');
 // =============================================================
 
 let userSelectedDate;
-let countdownTime;
 
 
 const options = {
@@ -53,6 +52,7 @@ const options = {
 }
 
 flatpickr("#datetime-picker", options);
+
 // ===============================================================
 
 function convertMs(ms) {
@@ -74,9 +74,8 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
   }
   
-  
-  
 //   ===========================================================
+
 buttonDisable();
 
 function buttonDisable() {
@@ -87,15 +86,6 @@ function inputDisable() {
     calendar.setAttribute('disabled', '');
 }
 
-
-function setTimer({days, hours, minutes, seconds}) {
-    daysValue.textContent = updateTime(days);
-    hoursValue.textContent = updateTime(hours);
-    minutesValue.textContent = updateTime(minutes);
-    secondsValue.textContent = updateTime(seconds);
-
-}
-
 function updateTime(value) {
     if (value < 10) {
         return String(value).padStart(2, '0');
@@ -104,31 +94,31 @@ function updateTime(value) {
     }
 }
 
-function onCountdownTime() {
-      buttonDisable();
-    inputDisable();
-   let countdownTime = userSelectedDate - Date.now();
+function addTimerValue() {
+    const countdownTime = userSelectedDate - Date.now();
 
     if (countdownTime <= 0) {
-        return
-    } else {
-        setTimer(convertMs(countdownTime));
+            return
+    } else {            
+        buttonDisable();
+        inputDisable(); 
     }
 
-   
+    const { days, hours, minutes, seconds } = convertMs(countdownTime);
 
-    setInterval(setTimer, 1000);
-    
-    
-    
-    
+    daysValue.textContent = updateTime(days);
+    hoursValue.textContent = updateTime(hours);
+    minutesValue.textContent = updateTime(minutes);
+    secondsValue.textContent = updateTime(seconds);
 }
 
-
-
-// console.log(setInterval);
-
 startButton.addEventListener('click', onCountdownTime);
+
+function onCountdownTime() {
+    addTimerValue();
+
+    setInterval(addTimerValue, 1000);
+}
 
 
 
