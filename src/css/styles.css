@@ -6,7 +6,13 @@
 */
 @import url('./reset.css');
 
+section {
+  margin-bottom: 12px;
+}
+
 /* ======================= Timer ========================== */
+
+
 #datetime-picker {
    height: 40px;
   width: 272px;
@@ -76,10 +82,31 @@ button[disabled] {
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
+  color: #808080;
+}
+
+.delay:hover {
+  border-color: #000000;
 }
 
 
 fieldset {
 margin-bottom: 8px;
+color: #808080;
+border-color: #808080;
+border-radius: 1px;
 
+}
+
+button {
+  background-color: #4E75FF;
+  border: none;
+  border-radius: 8px;
+  width: 360px;
+  height: 40px;
+  color: #ffffff;
+}
+
+button:hover {
+  background-color: #6C8CFF;
 }
